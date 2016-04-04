@@ -6,11 +6,17 @@
 # python rpmglob.py "package_fragment*"
 import rpm, sys
 
-ts = rpm.TransactionSet()
-mi = ts.dbMatch()
-if not mi:
-    print "No packages found."
-else:
-    mi.pattern('name', rpm.RPMMIRE_GLOB, sys.argv[1])
-for h in mi:
-    print "%s-%s-%s" % (h['name'], h['version'], h['release'])
+
+def query_glob(packagename):
+    ts = rpm.TransactionSet()
+    mi = ts.dbMatch()
+    if not mi:
+        print "No packages found."
+    else:
+        mi.pattern('name', rpm.RPMMIRE_GLOB, packagename)
+    for h in mi:
+        print "%s-%s-%s" % (h['name'], h['version'], h['release'])
+
+
+if __name__ == '__main__':
+    query_glob(sys.argv[1])
