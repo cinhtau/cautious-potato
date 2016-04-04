@@ -8,8 +8,7 @@ from subprocess import call
 
 
 def queryInfo(package):
-    call(['rpm', '--query', '--info', package])
-
+    return call(['rpm', '--query', '--info', package])
 
 if __name__ == '__main__':
-    queryInfo(sys.argv[1])
+    print queryInfo(sys.argv[1])

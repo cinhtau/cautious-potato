@@ -1,0 +1,94 @@
+
+== Setup Test environemnt
+
+This section is only relevant, if you are working a different linux distribution, that doesn't use rpm, e.g Ubuntu.
+To setup a proper test environment for querying, I describe how to create a simple hello world application for rpm.
+
+=== Setup environment
+
+.install rpm package on Ubuntu
+----
+sudo apt-get install python2.7-rpm
+----
+
+=== Create Test RPM
+
+.create hello_world.spec file
+----
+Summary: Outputs "hello world" on execution.
+Name: hello_world
+Version: 1.0.0
+Release: 1
+License: GPLv3+
+BuildRoot: /home/tan/tmp/%{name}-buildroot
+
+%description
+The "Hello World" program, done with all bells and whistles of a proper FOSS
+project, including configuration, build, internationalization, help files, etc.
+
+%pre
+ echo "this is the pre-install sh commands"
+ mkdir -p /opt/hello_world/
+
+%post
+ echo "this is the post-install sh commans"
+
+%files
+
+%defattr(700,root,root) /opt/hello_world/hello_world
+
+%preun
+ echo "the pre-uninstall sh commands"
+
+%postun
+ echo "the post-uninstall sh commands"
+----
+
+.create directory for rpmbuild
+----
+mkdir -p ~/rpmbuild/BUILDROOT/hello_world-1.0.0-1.x86_64/opt/hello_world
+----
+
+.create hello world rpm content
+----
+cat <<EOF>> ~/rpmbuild/BUILDROOT/hello_world-1.0.0-1.x86_64/opt/hello_world/hello_world
+#!/bin/sh
+printf "hello world.\n"
+EOF
+----
+
+----
+tan@pavilion:~/sources/cautious-potato$ rpmbuild -ba hello_world.spec
+Processing files: hello_world-1.0.0-1.x86_64
+Provides: hello_world = 1.0.0-1 hello_world(x86-64) = 1.0.0-1
+Requires(interp): /bin/sh /bin/sh /bin/sh /bin/sh
+Requires(rpmlib): rpmlib(CompressedFileNames) <= 3.0.4-1 rpmlib(PayloadFilesHavePrefix) <= 4.0-1
+Requires(pre): /bin/sh
+Requires(post): /bin/sh
+Requires(preun): /bin/sh
+Requires(postun): /bin/sh
+Checking for unpackaged file(s): /usr/lib/rpm/check-files /home/tan/rpmbuild/BUILDROOT/hello_world-1.0.0-1.x86_64
+Wrote: /home/tan/rpmbuild/SRPMS/hello_world-1.0.0-1.src.rpm
+Wrote: /home/tan/rpmbuild/RPMS/x86_64/hello_world-1.0.0-1.x86_64.rpm
+Executing(%clean): /bin/sh -e /var/tmp/rpm-tmp.CeK8Iw
++ umask 022
++ cd /home/tan/rpmbuild/BUILD
++ /bin/rm -rf /home/tan/rpmbuild/BUILDROOT/hello_world-1.0.0-1.x86_64
++ exit 0
+----
+
+.install without dependencies
+----
+tan@pavilion:~/rpmbuild/RPMS/x86_64$ sudo rpm -i hello_world-1.0.0-1.x86_64.rpm --nodeps
+[sudo] password for tan:
+rpm: RPM should not be used directly install RPM packages, use Alien instead!
+rpm: However assuming you know what you are doing...
+this is the pre-install sh commands
+this is the post-install sh commans
+----
+
+.check
+----
+tan@pavilion:~$ rpm -qa | grep hello
+hello_world-1.0.0-1.x86_64
+----

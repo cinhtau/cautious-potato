@@ -14,9 +14,11 @@ def query_glob(packagename):
         print "No packages found."
     else:
         mi.pattern('name', rpm.RPMMIRE_GLOB, packagename)
+        stack = []
     for h in mi:
-        print "%s-%s-%s" % (h['name'], h['version'], h['release'])
-
+        stack.append("%s-%s-%s" % (h['name'], h['version'], h['release']))
+    return stack
 
 if __name__ == '__main__':
-    query_glob(sys.argv[1])
+    for i in (query_glob(sys.argv[1])):
+        print i
