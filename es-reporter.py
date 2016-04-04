@@ -4,6 +4,13 @@
 # python es-reporter.py
 import sys
 import rpmglob
+import rpminfo
+
+
+def process(installedPackages):
+    for p in installedPackages:
+        rpminfo.queryInfo(p)
 
 if __name__ == '__main__':
-    rpmglob.query_glob(sys.argv[1])
+    installed = rpmglob.query_glob(sys.argv[1])
+    process(installed)

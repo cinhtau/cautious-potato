@@ -6,4 +6,10 @@ import sys
 
 from subprocess import call
 
-call(['rpm', '--query', '--info', sys.argv[1]])
+
+def queryInfo(package):
+    call(['rpm', '--query', '--info', package])
+
+
+if __name__ == '__main__':
+    queryInfo(sys.argv[1])
