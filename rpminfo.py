@@ -3,12 +3,12 @@
 # Usage:
 # python rpminfo.py
 import sys
-
-from subprocess import call
+import subprocess
 
 
 def queryInfo(package):
-    return call(['rpm', '--query', '--info', package])
+    result = '[info]\n' + subprocess.check_output(['rpm', '--query', '--info', package])
+    return result
 
 if __name__ == '__main__':
     print queryInfo(sys.argv[1])
