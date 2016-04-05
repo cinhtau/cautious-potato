@@ -1,5 +1,13 @@
 
-== Setup Test environemnt
+== General
+
+.compile all python programmes
+----
+cd sources
+python -m py_compile *.py
+----
+
+== Setup Test environment
 
 This section is only relevant, if you are working a different linux distribution, that doesn't use rpm, e.g Ubuntu.
 To setup a proper test environment for querying, I describe how to create a simple hello world application for rpm.
