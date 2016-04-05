@@ -35,11 +35,11 @@ The "Hello World" program, done with all bells and whistles of a proper FOSS
 project, including configuration, build, internationalization, help files, etc.
 
 %pre
- echo "this is the pre-install sh commands"
+ echo "this is the pre-install sh command"
  mkdir -p /opt/hello_world/
 
 %post
- echo "this is the post-install sh commans"
+ echo "this is the post-install sh command"
 
 %files
 
@@ -65,6 +65,7 @@ printf "hello world.\n"
 EOF
 ----
 
+.build the rpm
 ----
 tan@pavilion:~/sources/cautious-potato$ rpmbuild -ba hello_world.spec
 Processing files: hello_world-1.0.0-1.x86_64
@@ -91,8 +92,8 @@ tan@pavilion:~/rpmbuild/RPMS/x86_64$ sudo rpm -i hello_world-1.0.0-1.x86_64.rpm 
 [sudo] password for tan:
 rpm: RPM should not be used directly install RPM packages, use Alien instead!
 rpm: However assuming you know what you are doing...
-this is the pre-install sh commands
-this is the post-install sh commans
+this is the pre-install sh command
+this is the post-install sh command
 ----
 
 .check
