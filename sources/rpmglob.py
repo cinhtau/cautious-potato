@@ -4,7 +4,8 @@
 #
 # Usage:
 # python rpmglob.py "package_fragment*"
-import rpm, sys
+import rpm
+import sys
 
 
 def query_glob(packagename):

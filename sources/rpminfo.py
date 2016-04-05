@@ -6,9 +6,9 @@ import sys
 import subprocess
 
 
-def queryInfo(package):
+def query_info(package):
     result = '[info]\n' + subprocess.check_output(['rpm', '--query', '--info', package])
     return result
 
 if __name__ == '__main__':
-    print queryInfo(sys.argv[1])
+    print query_info(sys.argv[1])
