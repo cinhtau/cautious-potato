@@ -9,16 +9,16 @@ import json
 import subprocess
 
 
-def process(installed_packages):
+def process(installed_packages, env):
     if installed_packages is not None:
         for p in installed_packages:
             # print p
             # if str(p).startswith('six-splunkforwarder') is not True:
             dictionary = rpminfoparser.read(p)
             if dictionary is not None:
-                dictionary['environment'] = 'dev'
+                dictionary['environment'] = env
                 json_string = encode_json(dictionary)
-                send_to_elasticsearch(json_string, str(dictionary['name']))
+                send_to_elasticsearch(json_string, str(env + '-' + dictionary['name']))
 
 
 def encode_json(dictionary):
@@ -35,4 +35,4 @@ def send_to_elasticsearch(jsondata, id):
 
 if __name__ == '__main__':
     installed = rpmglob.query_glob(sys.argv[1])
-    process(installed)
+    process(installed, sys.argv[2])
