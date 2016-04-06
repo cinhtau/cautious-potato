@@ -160,6 +160,11 @@
                     "index": "not_analyzed",
                     "type": "string",
                     "doc_values": true
+                },
+              "size": {
+                "index": "not_analyzed",
+                "type": "long",
+                "doc_values": true
                 }
             }
         }

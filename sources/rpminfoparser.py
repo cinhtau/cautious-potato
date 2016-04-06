@@ -28,21 +28,25 @@ def as_dict(config):
     """
     Converts a ConfigParser object into a dictionary.
     """
-    dictionary = {}
+    rpm_dict = {}
     description_found = False
 
     for section in config.sections():
         for key, val in config.items(section):
-            if key is not 'description':
-                if val is not None:
-                    dictionary[key] = val
-                    description_found = True
+            if key != 'description':
+                # version is internal elasticsearch field
+                if key == 'version':
+                    rpm_dict['app_version'] = val
+                elif val is not None:
+                    rpm_dict[key] = val
+            else:
+                description_found = True
             if description_found is True:
                 # the key is the description value
                 # put the description value into description
-                dictionary['description'] = key
+                rpm_dict['description'] = key
 
-    return dictionary
+    return rpm_dict
 
 
 if __name__ == '__main__':
