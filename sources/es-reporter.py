@@ -7,6 +7,7 @@ import rpmglob
 import rpminfoparser
 import json
 import subprocess
+import socket
 
 
 def process(installed_packages, env):
@@ -17,6 +18,7 @@ def process(installed_packages, env):
             dictionary = rpminfoparser.read(p)
             if dictionary is not None:
                 dictionary['environment'] = env
+                dictionary['host'] = socket.gethostname()
                 json_string = encode_json(dictionary)
                 send_to_elasticsearch(json_string, str(env + '-' + dictionary['name']))
 
