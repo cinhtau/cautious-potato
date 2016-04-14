@@ -1,7 +1,7 @@
 #!/usr/bin/python
 # reports to elasticsearch information about installed packages
 # Usage:
-# python es-reporter.py
+# python es-reporter.py <package-asterisk> <environment>
 import sys
 import rpmglob
 import rpminfoparser
